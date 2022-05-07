@@ -41,10 +41,22 @@ if (navigator.geolocation) {
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       }).addTo(map)
 
-      L.marker(coords)
-        .addTo(map)
-        .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-        .openPopup()
+      map.on('click', function (mapEvent) {
+        const { lat, lng } = mapEvent.latlng
+
+        const coords = [lat, lng]
+        L.marker(coords)
+          .addTo(map)
+          .bindPopup(
+            L.popup({
+              maxWidth: 200,
+              minWidth: 100,
+              autoClose: false,
+              closeOnClick: false
+            })
+          )
+          .openPopup()
+      })
     },
     function () {
       alert('Could not get your position!!!')
